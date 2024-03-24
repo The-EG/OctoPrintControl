@@ -1,0 +1,12 @@
+[submodule "contrib/curl"]
+	path = contrib/curl
+	url = https://github.com/curl/curl.git
+[submodule "contrib/spdlog"]
+	path = contrib/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "contrib/nlohmann_json"]
+	path = contrib/nlohmann_json
+	url = https://github.com/nlohmann/json.git
+[submodule "contrib/fmt"]
+	path = contrib/fmt
+	url = https://github.com/fmtlib/fmt.git

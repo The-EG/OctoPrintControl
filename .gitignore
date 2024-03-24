@@ -1,0 +1,4 @@
+.vscode/
+build/
+token.txt
+OctoPrintControl.json
