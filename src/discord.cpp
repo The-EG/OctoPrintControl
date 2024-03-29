@@ -2,13 +2,14 @@
 // Copyright (c) 2024 Taylor Talkington
 // License: MIT (see LICENSE)
 #include "discord.h"
+#include "version.h"
 #include <fmt/core.h>
 #include <random>
 #include <chrono>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 static const char *const BASE_URL = "https://discord.com/api/v10";
-static const char *const USER_AGENT = "DiscordBot (https://github.com/The-EG/OctoPrintControl, 0.0.1)";
+static const char *const USER_AGENT = "DiscordBot (https://github.com/The-EG/OctoPrintControl, " OCTOPRINTCONTROL_VERSION_MAJOR_S "." OCTOPRINTCONTROL_VERSION_MINOR_S "." OCTOPRINTCONTROL_VERSION_PATCH_S ")";
 
 namespace OctoPrintControl::Discord {
 

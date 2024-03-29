@@ -67,11 +67,38 @@ else()
     pkg_check_modules(MAGICK++ REQUIRED Magick++)
 endif()
 
+set(OCTOPRINTCONTROL_VERSION_MAJOR 0)
+set(OCTOPRINTCONTROL_VERSION_MINOR 0)
+set(OCTOPRINTCONTROL_VERSION_PATCH 1)
+
+find_package(Git)
+if(Git_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE OCTOPRINT_CONTROL_GITHASH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+else()
+    set(OCTOPRINT_CONTROL_GITHASH "unknown")
+endif()
+configure_file(src/version.h.in version.h @ONLY)
+
 add_executable(OctoPrintControl
     src/main.cpp
+
+    ${CMAKE_CURRENT_BINARY_DIR}/version.h
+
+    src/octoprintcontrol.cpp
+    src/octoprintcontrol.h
     
     src/app.cpp
     src/app.h
+
+    src/command.cpp
+    src/command.h
+    src/interaction.h
+    src/interaction.cpp
     
     src/utils.cpp
     src/utils.h
@@ -90,11 +117,9 @@ add_executable(OctoPrintControl
     src/octoprint.cpp
     src/octoprint.h
 )
-# Magick++ specific defines
-#target_compile_definitions(OctoPrintControl PRIVATE "NeedFunctionPrototypes" "_DLL" "_MAGICKMOD_" "_VISUALC_")
 target_compile_options(OctoPrintControl PRIVATE ${MAGICK++_CFLAGS})
 
-target_include_directories(OctoPrintControl PRIVATE ${MAGICK++_INCLUDE_DIRS})
+target_include_directories(OctoPrintControl PRIVATE ${MAGICK++_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_directories(OctoPrintControl PRIVATE ${MAGICK++_LIBRARY_DIRS})
 target_link_libraries(OctoPrintControl PRIVATE CURL::libcurl nlohmann_json::nlohmann_json fmt::fmt spdlog::spdlog ${MAGICK++_LIBRARIES})
 
@@ -109,7 +134,7 @@ if(WIN32)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC") 
-    target_compile_options(OctoPrintControl PRIVATE "/W3")
+    target_compile_options(OctoPrintControl PRIVATE "/W4")
 else()
     target_compile_options(OctoPrintControl PRIVATE "-Wall")
 endif()
