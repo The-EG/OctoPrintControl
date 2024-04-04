@@ -25,9 +25,9 @@ static bool ValidateCommandPrinterArg(std::vector<std::string> args, std::string
     return true;
 }
 
-BotCommand::BotCommand() {
-    //this->log = spdlog::get(fmt::format("BotCommand::{}", this->Id()));
-    //if (!this->log.get()) this->log = spdlog::stdout_color_mt(fmt::format("BotCommand::{}", this->Id()));
+void BotCommand::SetupLogger() {
+    this->log = spdlog::get(fmt::format("BotCommand::{}", this->Id()));
+    if (!this->log.get()) this->log = spdlog::stdout_color_mt(fmt::format("BotCommand::{}", this->Id()));
 }
 
 void Help::Run(std::string channel, std::string message, std::string author, std::vector<std::string> args) {

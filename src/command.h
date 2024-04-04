@@ -10,7 +10,6 @@ namespace OctoPrintControl::Commands {
 
 class BotCommand {
 public:
-    BotCommand();
     virtual ~BotCommand() {}
 
     virtual std::string Id() = 0;
@@ -19,11 +18,13 @@ public:
 
 protected:
     std::shared_ptr<spdlog::logger> log;
+
+    void SetupLogger();
 };
 
 class Help : public BotCommand {
 public:
-    Help():BotCommand() {}
+    Help() { this->SetupLogger(); }
 
     std::string Id() { return "help"; }
     std::string Description() { return "Lists available OctoPrintControl commands."; }
@@ -33,7 +34,7 @@ public:
 
 class Ping : public BotCommand {
 public:
-    Ping():BotCommand() {}
+    Ping() { this->SetupLogger(); }
 
     std::string Id() { return "ping"; }
     std::string Description() { return "A command to test that the bot application is running. It will also return some version and connection info."; }
@@ -43,7 +44,7 @@ public:
 
 class ListPrinters : public BotCommand {
 public:
-    ListPrinters():BotCommand() {}
+    ListPrinters() { this->SetupLogger(); }
 
     std::string Id() { return "list-printers"; }
     std::string Description() { return "Returns a list of printers this bot can interact with and monitor."; }
@@ -53,7 +54,7 @@ public:
 
 class PowerOn : public BotCommand {
 public:
-    PowerOn():BotCommand() {}
+    PowerOn() { this->SetupLogger(); }
 
     std::string Id() { return "power-on"; }
     std::string Description() { return "Power on a printer using the PSU Control plugin."; }
@@ -63,7 +64,7 @@ public:
 
 class PowerOff : public BotCommand {
 public:
-    PowerOff():BotCommand() {}
+    PowerOff() { this->SetupLogger(); }
 
     std::string Id() { return "power-off"; }
     std::string Description() { return "Power off a printer using the PSU Control plugin."; }
@@ -73,7 +74,7 @@ public:
 
 class PrinterStatus : public BotCommand {
 public:
-    PrinterStatus():BotCommand() {}
+    PrinterStatus() { this->SetupLogger(); }
 
     std::string Id() { return "printer-status"; }
     std::string Description() { return "Display current printer status and webcam view."; }
